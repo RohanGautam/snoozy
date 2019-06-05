@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -12,22 +13,33 @@ class Sounds extends StatefulWidget {
 
 class _SoundsState extends State<Sounds> {
   String playerText="play";
+  bool isPlaying = false;
   AudioPlayer playerLoopController;
   static AudioCache player = AudioCache();
+
+
+  updatePlayerText(bool isPlaying){
+    setState(() {
+     playerText = isPlaying ? "pause" : "play"; 
+    });
+  }
+
   toggleAudio(String fileName) {
     return () async {
       AudioPlayer currentplayer;
-      if (playerText.toLowerCase() == "play") {
+      if (isPlaying==false) {
         currentplayer = await player.loop(fileName);
         setState(() {
-          playerText="pause";
+          isPlaying = true;
+          updatePlayerText(isPlaying);
           playerLoopController = currentplayer;
         });
       }
       else{
         await playerLoopController.pause(); 
         setState(() {
-          playerText="play";
+          isPlaying = false;
+          updatePlayerText(isPlaying);
         });
       }
     };
@@ -50,6 +62,7 @@ class _SoundsState extends State<Sounds> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Second Route"),

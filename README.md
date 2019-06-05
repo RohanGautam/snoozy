@@ -27,4 +27,8 @@ samples, guidance on mobile development, and a full API reference.
 
 * https://wireframepro.mockflow.com/editor.jsp?editor=on&publicid=M04543f5c25cfaa47c39c3b127056e3c61559286687063&perm=Create&projectid=M04082aecf0d581203bb80e1da3462e6c1559287145300&ptitle=snoozy&bgcolor=white&category=sketchui#/page/feee0131cf404c47abcf8144cce80e3b
 
+* [initializing sharedPreferences on creation](https://flutter.institute/run-async-operation-on-widget-creation/)
+* [guide on using sharedpreferences](https://medium.com/@studymongolian/saving-and-reading-data-in-flutter-with-sharedpreferences-bb4238d3105)
+
+
 
