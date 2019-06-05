@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 
 
 class Sounds extends StatefulWidget {
-  Sounds({Key key}) : super(key: key);
+  final bool isPlaying;
+  final AudioPlayer playerLoopController;
+
+  Sounds({Key key, @required this.isPlaying, @required this.playerLoopController}) : super(key: key);
   @override
   _SoundsState createState() => _SoundsState();
 }
 
-class _SoundsState extends State<Sounds> {
+class _SoundsState extends State<Sounds>{
   String playerText="play";
   bool isPlaying = false;
   AudioPlayer playerLoopController;
   static AudioCache player = AudioCache();
 
+  @override
+  void initState(){
+    // print("_____________YooT_ ${widget.isPlaying}");
+    setState(() {
+     isPlaying=widget.isPlaying; 
+     updatePlayerText(isPlaying);
+     playerLoopController= widget.playerLoopController;
+    });
+  }
+
+  _sendDataBack(BuildContext context, bool isPlaying, AudioPlayer playerLoopController){
+    var sendThisData = [isPlaying, playerLoopController];
+    Navigator.pop(context,sendThisData);
+  }
 
   updatePlayerText(bool isPlaying){
     setState(() {
@@ -62,15 +78,18 @@ class _SoundsState extends State<Sounds> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Second Route"),
-      ),
+      // appBar: AppBar(
+      //   title: Text("Second Route"),
+      // ),
       body: Column(
         children: <Widget>[
           Text("hello"),
           playAudioWidget(),
+          RaisedButton(
+              onPressed: () => _sendDataBack(context, isPlaying, playerLoopController),
+              child: Text('Back'),
+            ),
         ],
       ),
     );

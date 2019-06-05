@@ -19,16 +19,21 @@ samples, guidance on mobile development, and a full API reference.
 # References
 * [Dynamic theme changer](https://github.com/Norbert515/dynamic_theme), [article](https://proandroiddev.com/how-to-dynamically-change-the-theme-in-flutter-698bd022d0f0)
 
-* https://github.com/luanpotter/audioplayers
+* [Audioplayers repo](https://github.com/luanpotter/audioplayers)
 
 * https://stackoverflow.com/questions/49439047/how-to-preserve-widget-states-in-flutter-when-navigating-using-bottomnavigation
 
 * https://stackoverflow.com/questions/51195114/flutter-persistent-state-between-pages
 
-* https://wireframepro.mockflow.com/editor.jsp?editor=on&publicid=M04543f5c25cfaa47c39c3b127056e3c61559286687063&perm=Create&projectid=M04082aecf0d581203bb80e1da3462e6c1559287145300&ptitle=snoozy&bgcolor=white&category=sketchui#/page/feee0131cf404c47abcf8144cce80e3b
-
 * [initializing sharedPreferences on creation](https://flutter.institute/run-async-operation-on-widget-creation/)
 * [guide on using sharedpreferences](https://medium.com/@studymongolian/saving-and-reading-data-in-flutter-with-sharedpreferences-bb4238d3105)
 
+* [sharing data](https://medium.com/flutter-community/simple-ways-to-pass-to-and-share-data-with-widgets-pages-f8988534bd5b). A mix of sending and recieving was used.
+* When ou have to pass a function which has params you have to pass, instead of nesting another function inside it, do this(example):
+```
+() => funk(param1, param2, ..)
+// in use
+onClick: () => funk(param1, param2, ..)
+```
 
 

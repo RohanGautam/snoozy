@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:snoozy_app/sounds.dart';
 
 void main() => runApp(MyApp());
@@ -38,20 +39,25 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime now = DateTime.now();
   var _switchValue = false;
   var prefs;
+  // **--for the sounds page--**
+  bool isPlaying = false;
+  AudioPlayer playerLoopController;
+  // **----**
 
   @override
-  void initState(){ //executed only once
+  void initState() {
+    //executed only once
     // You can't use async/await here,
     // We can't mark this method as async because of the @override
-    SharedPreferences.getInstance().then((_prefs){
+    SharedPreferences.getInstance().then((_prefs) {
       setState(() {
-        prefs=_prefs;
+        prefs = _prefs;
         // make the initial state of the switch same as previously stored state when the app reloads
-        _switchValue = prefs.getBool('switchValue') ?? false; // ?? means if null, make it false
+        _switchValue = prefs.getBool('switchValue') ??
+            false; // ?? means if null, make it false
       });
     });
   }
-
 
   void _refreshTime() {
     setState(() {
@@ -64,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //switch passes current state of switch, but doesnt cahange it in UI. to do that, you have to change it yourself.
       _switchValue = s;
     });
-    prefs.setBool('switchValue',s);    
+    prefs.setBool('switchValue', s);
     DynamicTheme.of(context).setBrightness(
         Theme.of(context).brightness == Brightness.dark
             ? Brightness.light
@@ -136,6 +142,22 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  _soundsPage(BuildContext context, var page) async {
+    var dataRecieved = await Navigator.push(
+        context,
+        PageRouteBuilder(
+            pageBuilder: (context, anim1, anim2) => new Sounds(
+                isPlaying: isPlaying,
+                playerLoopController: playerLoopController)));
+    // MaterialPageRoute(
+    //     builder: (context) => ));
+    setState(() {
+      isPlaying = dataRecieved[0];
+      playerLoopController = dataRecieved[1];
+    });
+    // print(isPlaying);
+  }
+
   Widget bottomDock() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -144,12 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
           heroTag: "soundsNavButton",
           tooltip: "Go to new page",
           child: Icon(Icons.arrow_forward),
-          onPressed: () {
-            Navigator.push(
-                context,
-                PageRouteBuilder(
-                    pageBuilder: (context, anim1, anim2) => Sounds()));
-          },
+          onPressed: () => _soundsPage(context, Sounds), //this is a shorthand if you want to pass a function with parameters
         )
       ],
     );
@@ -158,9 +175,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      // appBar: AppBar(
+      //   title: Text(widget.title),
+      // ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
