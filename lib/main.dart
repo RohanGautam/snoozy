@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:snoozy_app/sounds.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
           return new MaterialApp(
             title: 'Flutter Demo',
             theme: theme,
-            home: new MyHomePage(title: 'snoozy'),
+            home:MyHomePage(title: 'snoozy'),
           );
         });
   }
@@ -37,6 +38,26 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime now = DateTime.now();
   var _switchValue = false;
 
+  Future<bool> saveThemeToggleState() async {
+	final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setBool("switchValue", _switchValue) ?? false;
+  	// return prefs.setBool(_switchValue) ?? false;
+  }
+  Future<bool> getThemeToggleState() async {
+	final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getBool("switchValue") ?? false;
+  	// return prefs.setBool(_switchValue) ?? false;
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() async{
+     _switchValue= await getThemeToggleState();
+    });
+
+  }
+
   void _refreshTime() {
     setState(() {
       now = DateTime.now();
@@ -48,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _switchValue =
           s; //switch passes current state of switch, but doesnt cahange it in UI. to do that, you have to change it yourself.
     });
+
     DynamicTheme.of(context).setBrightness(
         Theme.of(context).brightness == Brightness.dark
             ? Brightness.light
@@ -60,23 +82,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<DateTime> _sleepTimeLogic(DateTime now) {
     // to calculate sleep timings
-    List<DateTime> Times = [];
+    List<DateTime> times = [];
     int timeToFallAsleep = 14, _hours = 0, _mins = 0;
     // some logic to keep adding 1 and a half hours(duration of 1 full sleep cycle), and 14 minutes(avg time taken to fall asleep)
     for (int i = 1; i < 7; i++) {
       _hours = i % 2 == 0 ? _hours + 2 : _hours + 1;
       _mins = i % 2 == 0 ? 0 : 30;
-      Times.add(now
+      times.add(now
           .add(new Duration(hours: _hours, minutes: _mins + timeToFallAsleep)));
       // print("$_hours,  $_mins");
     }
 
-    return Times;
+    return times;
   }
 
   Widget sleepCard(DateTime time) {
     String currentTimeStr = DateFormat('kk:mm').format(now);
-    List<DateTime> TimesToWake = _sleepTimeLogic(time);
+    List<DateTime> timesToWake = _sleepTimeLogic(time);
     var timeStyle = TextStyle(fontSize: 40);
 
     return Container(
@@ -90,15 +112,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 "If you sleep now($currentTimeStr), wake up at",
               ),
               Text(
-                "${DateFormat('kk:mm').format(TimesToWake[0])}, ${DateFormat('kk:mm').format(TimesToWake[1])}",
+                "${DateFormat('kk:mm').format(timesToWake[0])}, ${DateFormat('kk:mm').format(timesToWake[1])}",
                 style: timeStyle,
               ),
               Text(
-                " ${DateFormat('kk:mm').format(TimesToWake[2])}, ${DateFormat('kk:mm').format(TimesToWake[3])}",
+                " ${DateFormat('kk:mm').format(timesToWake[2])}, ${DateFormat('kk:mm').format(timesToWake[3])}",
                 style: timeStyle,
               ),
               Text(
-                "${DateFormat('kk:mm').format(TimesToWake[4])}, ${DateFormat('kk:mm').format(TimesToWake[5])}",
+                "${DateFormat('kk:mm').format(timesToWake[4])}, ${DateFormat('kk:mm').format(timesToWake[5])}",
                 style: timeStyle,
               ),
               Row(
@@ -119,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget bottomDock(){
+  Widget bottomDock() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -127,9 +149,11 @@ class _MyHomePageState extends State<MyHomePage> {
           heroTag: "soundsNavButton",
           tooltip: "Go to new page",
           child: Icon(Icons.arrow_forward),
-          onPressed: (){
-            Navigator.push(context, 
-            PageRouteBuilder(pageBuilder: (context, anim1, anim2) => Sounds()));
+          onPressed: () {
+            Navigator.push(
+                context,
+                PageRouteBuilder(
+                    pageBuilder: (context, anim1, anim2) => Sounds()));
           },
         )
       ],
