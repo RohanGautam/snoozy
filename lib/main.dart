@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           return new MaterialApp(
             title: 'Flutter Demo',
             theme: theme,
-            home:MyHomePage(title: 'snoozy'),
+            home: MyHomePage(title: 'snoozy'),
           );
         });
   }
@@ -37,26 +37,21 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   DateTime now = DateTime.now();
   var _switchValue = false;
+  var prefs;
 
-  Future<bool> saveThemeToggleState() async {
-	final SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.setBool("switchValue", _switchValue) ?? false;
-  	// return prefs.setBool(_switchValue) ?? false;
-  }
-  Future<bool> getThemeToggleState() async {
-	final SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getBool("switchValue") ?? false;
-  	// return prefs.setBool(_switchValue) ?? false;
-  }
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() async{
-     _switchValue= await getThemeToggleState();
+  void initState(){ //executed only once
+    // You can't use async/await here,
+    // We can't mark this method as async because of the @override
+    SharedPreferences.getInstance().then((_prefs){
+      setState(() {
+        prefs=_prefs;
+        // make the initial state of the switch same as previously stored state when the app reloads
+        _switchValue = prefs.getBool('switchValue') ?? false; // ?? means if null, make it false
+      });
     });
-
   }
+
 
   void _refreshTime() {
     setState(() {
@@ -66,10 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void changeTheme(bool s) {
     setState(() {
-      _switchValue =
-          s; //switch passes current state of switch, but doesnt cahange it in UI. to do that, you have to change it yourself.
+      //switch passes current state of switch, but doesnt cahange it in UI. to do that, you have to change it yourself.
+      _switchValue = s;
     });
-
+    prefs.setBool('switchValue',s);    
     DynamicTheme.of(context).setBrightness(
         Theme.of(context).brightness == Brightness.dark
             ? Brightness.light
