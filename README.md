@@ -36,4 +36,5 @@ samples, guidance on mobile development, and a full API reference.
 onClick: () => funk(param1, param2, ..)
 ```
 
-
+* You change the state, it will cause the widget to be rebuilt
+* http://soundbible.com/tags-thunder.html

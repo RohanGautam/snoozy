@@ -45,7 +45,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/White-noise-rain-sound.mp3
+    - assets/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
