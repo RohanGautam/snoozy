@@ -54,22 +54,33 @@ class _SoundsState extends State<Sounds> {
   }
 
   toggleAudio(String fileName) async {
-    setState(() {
-     currentTrackName = fileName; 
-    });
-    print("current track is $currentTrackName");
+
+    //print("current track is $currentTrackName");
     AudioPlayer currentplayer;
-    if (isPlaying == false) {
+
+    _playFile(fileName) async{
       currentplayer = await player.loop(fileName);
       setState(() {
         isPlaying = true;
         playerLoopController = currentplayer;
+        currentTrackName = fileName;
       });
-    } else {
+    }
+
+    if (isPlaying == false) {
+      _playFile(fileName);
+    } 
+    else {
+      //same button pressed, then pause that
       await playerLoopController.pause();
       setState(() {
         isPlaying = false;
       });
+      // ie, a diff button was pressed, pause current one, then play that
+      if(currentTrackName!=fileName){
+        _playFile(fileName);
+      }
+
     }
     
   }
@@ -96,6 +107,29 @@ class _SoundsState extends State<Sounds> {
     );
   }
 
+  Widget buildAllAudioWidgets(){
+    var audioFileData = [
+      {
+        "displayName": "Rain and white noise",
+        "fileName": "White-noise-rain-sound.mp3",
+      },
+      {
+        "displayName": "Rain inside house",
+        "fileName": "rain-inside-house.mp3",
+      },
+    ];
+
+    return ListView.builder(
+      itemCount: audioFileData.length,
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      itemBuilder: (context, index){
+        var displayName = audioFileData[index]["displayName"];
+        var fileName = audioFileData[index]["fileName"];
+        return  playAudioWidget(displayName, fileName);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,11 +140,12 @@ class _SoundsState extends State<Sounds> {
           child: Column(
             children: <Widget>[
               Text("hello"),
-              playAudioWidget('Rain and white noise', 'White-noise-rain-sound.mp3'),
-              playAudioWidget('Rain inside house', 'rain-inside-house.mp3'),
+              // playAudioWidget('Rain and white noise', 'White-noise-rain-sound.mp3'),
+              // playAudioWidget('Rain inside house', 'rain-inside-house.mp3'),
+              buildAllAudioWidgets(),
               RaisedButton(
                 onPressed: () =>
-                    _sendDataBack(context, isPlaying, playerLoopController),
+                    _sendDataBack(context, isPlaying, playerLoopController,),
                 child: Text('Back'),
               ),
             ],
