@@ -15,14 +15,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new DynamicTheme(
+    return DynamicTheme(
         defaultBrightness: Brightness.light,
-        data: (brightness) => new ThemeData(
+        data: (brightness) => ThemeData(
               primarySwatch: Colors.indigo,
               brightness: brightness,
             ),
         themedWidgetBuilder: (context, theme) {
-          return new MaterialApp(
+          return MaterialApp(
             title: 'Flutter Demo',
             theme: theme,
             home: MyHomePage(title: 'snoozy'),
