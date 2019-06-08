@@ -36,21 +36,22 @@ class _SoundsState extends State<Sounds> {
     Navigator.pop(context, sendThisData);
   }
 
-  String updatePlayerText(bool isPlaying, String currentTrackName, String fileName) {
+  updatePlayerIcon(bool isPlaying, String currentTrackName, String fileName) {
     print("$currentTrackName and $fileName");
     // return isPlaying ? "pause": "play";
+    var play=Icon(Icons.play_arrow); //"play"
+    var pause= Icon(Icons.pause); //"pause"
     if(currentTrackName==null || !isPlaying){
-        return "play";
+        return play;
       }
     if(isPlaying){      
       if (currentTrackName==fileName){// look at current tracknme
-        return "pause";
+        return pause;
       }
       else{
-        return "play";
+        return play;
       }
     }
-    return("nothing");
   }
 
   toggleAudio(String fileName) async {
@@ -90,17 +91,24 @@ class _SoundsState extends State<Sounds> {
     Card(
       child: Container(
         padding: EdgeInsets.all(30),
-        child: Column(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text('Play $trackName'),
-            ButtonTheme(
-              minWidth: 48.0,
-              child: RaisedButton(
-                //currenttrackname is initially null
-                child: Text(updatePlayerText(isPlaying, currentTrackName, fileName)),
-                onPressed: () => toggleAudio(fileName),
-              ),
+            Text('$trackName'),
+            IconButton(
+              icon: updatePlayerIcon(isPlaying, currentTrackName, fileName),
+              iconSize: 40,
+              tooltip: "Toggle audio for this track",
+              onPressed: ()=> toggleAudio(fileName),
             ),
+            // ButtonTheme(
+            //   minWidth: 48.0,
+            //   child: RaisedButton(
+            //     //currenttrackname is initially null
+            //     child: Text(updatePlayerText(isPlaying, currentTrackName, fileName)),
+            //     onPressed: () => toggleAudio(fileName),
+            //   ),
+            // ),
           ],
         ),
       ),
