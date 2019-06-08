@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // **--for the sounds page--**
   bool isPlaying = false;
   AudioPlayer playerLoopController;
+  String currentTrackName;
   // **----**
 
   @override
@@ -148,12 +149,14 @@ class _MyHomePageState extends State<MyHomePage> {
         PageRouteBuilder(
             pageBuilder: (context, anim1, anim2) => new Sounds(
                 isPlaying: isPlaying,
-                playerLoopController: playerLoopController)));
+                playerLoopController: playerLoopController,
+                currentTrackName: currentTrackName,)));
     // MaterialPageRoute(
     //     builder: (context) => ));
     setState(() {
       isPlaying = dataRecieved[0];
       playerLoopController = dataRecieved[1];
+      currentTrackName = dataRecieved[2];
     });
     // print(isPlaying);
   }
