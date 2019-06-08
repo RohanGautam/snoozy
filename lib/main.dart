@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:snoozy_app/sounds.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);// making it potrait-only
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
