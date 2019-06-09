@@ -38,3 +38,7 @@ onClick: () => funk(param1, param2, ..)
 
 * You change the state, it will cause the widget to be rebuilt
 * http://soundbible.com/tags-thunder.html
+
+* [Shading/ fading out an image](https://stackoverflow.com/questions/55102880/flutter-image-fade-out-at-bottom-gradient)
+
+* [Card with image AND rounded border](https://stackoverflow.com/questions/53866481/flutter-how-to-create-card-with-background-image)
