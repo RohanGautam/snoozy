@@ -162,8 +162,8 @@ class _SoundsState extends State<Sounds> {
       minWidth: 300,
       height: 60,
       child: RaisedButton(
-        onPressed: () =>
-            _sendDataBack(context, isPlaying, playerLoopController,),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        onPressed: () =>_sendDataBack(context, isPlaying, playerLoopController,),
         child: Text('Back', style: TextStyle(color: Colors.white),),
       ),
     );

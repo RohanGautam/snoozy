@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:snoozy_app/sounds.dart';
+import 'package:Snoozy/sounds.dart';
 
 void main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);// making it potrait-only
@@ -94,7 +94,10 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Transform.scale(     
                 scale: 1.5,       
-                child: Switch(value: _switchValue, onChanged: changeTheme),
+                child: Switch(
+                  value: _switchValue, 
+                  onChanged: changeTheme,
+                ),
               ),
               Text("DarkMode")
             ],
@@ -142,42 +145,43 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
 
+    Widget _refreshButton(){
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FloatingActionButton(
+          heroTag: "refreshButton",
+          tooltip: 'Refresh',
+          backgroundColor: Colors.green,
+          onPressed: _refreshTime,
+          child: Icon(Icons.refresh),
+        ),
+      );
+    }
+
     return Container(
       padding: EdgeInsets.only(left: 20, right: 20),
       child: Card(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: <Widget>[
-              Text(
-                "If you sleep now($currentTimeStr), wake up at",
-              ),
-              _timeStringsWidget(),
-              // Text(
-              //   "${DateFormat('kk:mm').format(timesToWake[0])}, ${DateFormat('kk:mm').format(timesToWake[1])}",
-              //   style: TextStyle(fontSize: 40, color: Color.fromRGBO(168, 39, 254, 1)),
-              // ),
-              // Text(
-              //   " ${DateFormat('kk:mm').format(timesToWake[2])}, ${DateFormat('kk:mm').format(timesToWake[3])}",
-              //   style: TextStyle(fontSize: 40, color: Color.fromRGBO(140, 140, 255, 1)),
-              // ),
-              // Text(
-              //   "${DateFormat('kk:mm').format(timesToWake[4])}, ${DateFormat('kk:mm').format(timesToWake[5])}",
-              //   style: TextStyle(fontSize: 40, color: Color.fromRGBO(143, 254, 221, 1)),
-              // ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)), 
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 20),
+              child: Column(
                 children: <Widget>[
-                  FloatingActionButton(
-                    heroTag: "refreshButton",
-                    onPressed: _refreshTime,
-                    tooltip: 'Refresh',
-                    child: Icon(Icons.refresh),
-                  )
+                  Text(
+                    "If you sleep now($currentTimeStr), wake up at",
+                  ),
+                  _timeStringsWidget(),
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                _refreshButton()
+              ],
+            )
+          ],
         ),
       ),
     );
@@ -205,11 +209,24 @@ class _MyHomePageState extends State<MyHomePage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        FloatingActionButton(
-          heroTag: "soundsNavButton",
-          tooltip: "Go to sounds page",
-          child: Icon(Icons.music_note),
-          onPressed: () => _soundsPage(context, Sounds), //this is a shorthand if you want to pass a function with parameters
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+          child: ButtonTheme(
+            height: 60,
+            minWidth: 300,
+            child: RaisedButton.icon(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              onPressed: () => _soundsPage(context, Sounds), //this is a shorthand if you want to pass a function with parameters
+              icon: Icon(Icons.music_note, color: Colors.white,),
+              label: Text("Sounds",style: TextStyle(color: Colors.white)),
+            ),
+          ),
+          // child: FloatingActionButton(
+          //   heroTag: "soundsNavButton",
+          //   tooltip: "Go to sounds page",
+          //   child: Icon(Icons.music_note),
+          //   onPressed: 
+          // ),
         )
       ],
     );
@@ -219,7 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           themeToggler(),
           sleepCard(now),
