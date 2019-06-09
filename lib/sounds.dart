@@ -156,45 +156,6 @@ class _SoundsState extends State<Sounds> {
     );
   }
 
-  Widget imageFadeTest(){
-    return 
-    Flexible(
-      child: SizedBox(
-        height: 150,
-        child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          semanticContainer: true,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Stack(
-            children: <Widget>[
-              ShaderMask(
-                shaderCallback: (rect) {
-                  return LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [Colors.black, Colors.transparent],
-                  ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
-                },
-                blendMode: BlendMode.dstIn,
-                child: Image.asset(
-                  'assets/rain-flowers.jpg',
-                  height: 400,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                Center(child: Text("SOME TEXT BITCH")),
-                IconButton(icon: Icon(Icons.pause), tooltip: "ay mate", onPressed: (){print("hello");},),            
-                ],
-              ),
-            ] 
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,9 +165,6 @@ class _SoundsState extends State<Sounds> {
         child: Center(
           child: Column(
             children: <Widget>[
-              Text("hello"),
-              // playAudioWidget('Rain and white noise', 'White-noise-rain-sound.mp3'),
-              // playAudioWidget('Rain inside house', 'rain-inside-house.mp3'),
               Expanded(child: buildAllAudioWidgets()),
               RaisedButton(
                 onPressed: () =>
