@@ -207,7 +207,7 @@ class _SoundsState extends State<Sounds> {
               Text("hello"),
               // playAudioWidget('Rain and white noise', 'White-noise-rain-sound.mp3'),
               // playAudioWidget('Rain inside house', 'rain-inside-house.mp3'),
-              buildAllAudioWidgets(),
+              Expanded(child: buildAllAudioWidgets()),
               RaisedButton(
                 onPressed: () =>
                     _sendDataBack(context, isPlaying, playerLoopController,),
