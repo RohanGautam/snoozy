@@ -232,6 +232,20 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Widget sleepyImage(){
+    return Container(
+      width: 150.0,
+      height: 130.0,
+        alignment: Alignment.center,
+        decoration: new BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('assets/sleepyDog.png'),
+            fit: BoxFit.fill
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -239,6 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           themeToggler(),
+          sleepyImage(),
           sleepCard(now),
           bottomDock(),
         ],

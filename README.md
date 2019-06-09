@@ -47,3 +47,8 @@ onClick: () => funk(param1, param2, ..)
 
 * [changing properties of RaisedButton](https://stackoverflow.com/questions/50293503/how-to-set-the-width-of-a-raisedbutton-in-flutter)
 
+* [changing app icon](https://stackoverflow.com/questions/43928702/how-to-change-the-application-launcher-icon-on-flutter)
+
+* [if you wanna change it's name](https://stackoverflow.com/questions/46694153/changing-the-project-name)
+
+* [Flaticon](https://www.flaticon.com) for icons
