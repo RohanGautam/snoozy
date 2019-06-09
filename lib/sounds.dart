@@ -86,31 +86,44 @@ class _SoundsState extends State<Sounds> {
     
   }
 
-  Widget playAudioWidget(String trackName, fileName) {    
+  Widget playAudioWidget(String trackName, fileName, imgPath) {    
     return 
-    Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      child: Container(
-        padding: EdgeInsets.all(30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    SizedBox(
+      height: 150,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        semanticContainer: true, // this and the one below are to ensure card has rounded corners and not sharp edges due
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Stack(
           children: <Widget>[
-            Text('$trackName'),
-            IconButton(
-              icon: updatePlayerIcon(isPlaying, currentTrackName, fileName),
-              iconSize: 40,
-              tooltip: "Toggle audio for this track",
-              onPressed: ()=> toggleAudio(fileName),
+            ShaderMask(
+              shaderCallback: (rect) {
+                return LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [Colors.black, Colors.transparent],
+                ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+              },
+              blendMode: BlendMode.dstIn,
+              child: Image.asset(
+                imgPath,
+                height: 400,
+                fit: BoxFit.fill,
+              ),
             ),
-            // ButtonTheme(
-            //   minWidth: 48.0,
-            //   child: RaisedButton(
-            //     //currenttrackname is initially null
-            //     child: Text(updatePlayerText(isPlaying, currentTrackName, fileName)),
-            //     onPressed: () => toggleAudio(fileName),
-            //   ),
-            // ),
-          ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+              Center(child: Text(trackName)),
+              IconButton(
+                  icon: updatePlayerIcon(isPlaying, currentTrackName, fileName),
+                  iconSize: 40,
+                  tooltip: "Toggle audio for this track",
+                  onPressed: ()=> toggleAudio(fileName),
+                ),
+              ],
+            ),
+          ] 
         ),
       ),
     );
@@ -121,10 +134,12 @@ class _SoundsState extends State<Sounds> {
       {
         "displayName": "Rain and white noise",
         "fileName": "White-noise-rain-sound.mp3",
+        "imgPath": "assets/rain-flowers.jpg"
       },
       {
         "displayName": "Rain inside house",
         "fileName": "rain-inside-house.mp3",
+        "imgPath": "assets/rain-umbrella.jpg"
       },
     ];
 
@@ -135,7 +150,8 @@ class _SoundsState extends State<Sounds> {
       itemBuilder: (context, index){
         var displayName = audioFileData[index]["displayName"];
         var fileName = audioFileData[index]["fileName"];
-        return  playAudioWidget(displayName, fileName);
+        var imgPath = audioFileData[index]["imgPath"];
+        return  playAudioWidget(displayName, fileName, imgPath);
       },
     );
   }
@@ -197,7 +213,7 @@ class _SoundsState extends State<Sounds> {
                     _sendDataBack(context, isPlaying, playerLoopController,),
                 child: Text('Back'),
               ),
-              imageFadeTest(),
+              //imageFadeTest(),
             ],
           ),
         ),
