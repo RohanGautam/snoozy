@@ -16,18 +16,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-        defaultBrightness: Brightness.light,
-        data: (brightness) => ThemeData(
-              primarySwatch: Colors.indigo,
-              brightness: brightness,
-            ),
-        themedWidgetBuilder: (context, theme) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: theme,
-            home: MyHomePage(title: 'snoozy'),
-          );
-        });
+      defaultBrightness: Brightness.light,
+      data: (brightness) => ThemeData(
+            primarySwatch: Colors.indigo,
+            brightness: brightness,
+          ),
+      themedWidgetBuilder: (context, theme) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: theme,
+          home: MyHomePage(title: 'snoozy'),
+          debugShowCheckedModeBanner: false,
+        );
+      });
   }
 }
 
@@ -83,7 +84,24 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget themeToggler() {
-    return Switch(value: _switchValue, onChanged: changeTheme);
+    return 
+    Container(
+      padding: EdgeInsets.all(20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Transform.scale(     
+                scale: 1.5,       
+                child: Switch(value: _switchValue, onChanged: changeTheme),
+              ),
+              Text("DarkMode")
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   List<DateTime> _sleepTimeLogic(DateTime now) {
@@ -189,8 +207,8 @@ class _MyHomePageState extends State<MyHomePage> {
       children: <Widget>[
         FloatingActionButton(
           heroTag: "soundsNavButton",
-          tooltip: "Go to new page",
-          child: Icon(Icons.arrow_forward),
+          tooltip: "Go to sounds page",
+          child: Icon(Icons.music_note),
           onPressed: () => _soundsPage(context, Sounds), //this is a shorthand if you want to pass a function with parameters
         )
       ],
@@ -200,18 +218,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(widget.title),
-      // ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            themeToggler(),
-            sleepCard(now),
-            bottomDock(),
-          ],
-        ),
+      body: Column(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          themeToggler(),
+          sleepCard(now),
+          bottomDock(),
+        ],
       ),
     );
   }

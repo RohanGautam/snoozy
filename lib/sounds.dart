@@ -156,6 +156,19 @@ class _SoundsState extends State<Sounds> {
     );
   }
 
+  Widget backButton(){
+    return 
+    ButtonTheme(
+      minWidth: 300,
+      height: 60,
+      child: RaisedButton(
+        onPressed: () =>
+            _sendDataBack(context, isPlaying, playerLoopController,),
+        child: Text('Back', style: TextStyle(color: Colors.white),),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -166,11 +179,7 @@ class _SoundsState extends State<Sounds> {
           child: Column(
             children: <Widget>[
               Expanded(child: buildAllAudioWidgets()),
-              RaisedButton(
-                onPressed: () =>
-                    _sendDataBack(context, isPlaying, playerLoopController,),
-                child: Text('Back'),
-              ),
+              backButton()
               //imageFadeTest(),
             ],
           ),

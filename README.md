@@ -42,3 +42,8 @@ onClick: () => funk(param1, param2, ..)
 * [Shading/ fading out an image](https://stackoverflow.com/questions/55102880/flutter-image-fade-out-at-bottom-gradient)
 
 * [Card with image AND rounded border](https://stackoverflow.com/questions/53866481/flutter-how-to-create-card-with-background-image)
+
+* [making listview scrollable inside column](https://stackoverflow.com/questions/45669202/how-to-add-a-listview-to-a-column-in-flutter)
+
+* [changing properties of RaisedButton](https://stackoverflow.com/questions/50293503/how-to-set-the-width-of-a-raisedbutton-in-flutter)
+
