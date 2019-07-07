@@ -1,4 +1,4 @@
-package com.example.snoozy_app;
+package com.example.snoozy;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
