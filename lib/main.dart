@@ -66,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _refreshTime() {
-    print("Refreshing... it is now${now.minute}");
     setState(() {
       now = DateTime.now();
     });
@@ -146,19 +145,6 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
 
-    Widget _refreshButton(){
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FloatingActionButton(
-          heroTag: "refreshButton",
-          tooltip: 'Refresh',
-          backgroundColor: Colors.green,
-          onPressed: _refreshTime,
-          child: Icon(Icons.refresh),
-        ),
-      );
-    }
-
     return Container(
       padding: EdgeInsets.only(left: 20, right: 20),
       child: Card(
@@ -166,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 20),
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 20, bottom: 20),
               child: Column(
                 children: <Widget>[
                   Text(
@@ -176,26 +162,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                _refreshButton()
-              ],
-            )
           ],
         ),
       ),
     );
   }
 
-
+  Widget dogImage(String imgPath){
+    return Transform.scale(scale: 0.60,child: Image.asset(imgPath),);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           themeToggler(),
+          dogImage("assets/sleepyDog.png"),
           sleepCard(now),
         ],
       ),
