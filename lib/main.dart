@@ -127,13 +127,17 @@ class _MyHomePageState extends State<MyHomePage> {
     String currentTimeStr = DateFormat('kk:mm').format(now);
     List<DateTime> timesToWake = _sleepTimeLogic(time);
 
+    Widget individualTimeWidget(var time, Color c){
+      return Text("${DateFormat('kk:mm').format(time)}", style: TextStyle(fontSize: 40, color: c,),);
+    }
+
     Widget _timeStringsWidget(){
-      var w1 =Text("${DateFormat('kk:mm').format(timesToWake[0])}", style: TextStyle(fontSize: 40, color: Color.fromRGBO(168, 39, 254, 1)));
-      var w2 =Text("${DateFormat('kk:mm').format(timesToWake[1])}", style: TextStyle(fontSize: 40, color: Color.fromRGBO(154, 39, 254, 1)));
-      var w3 =Text("${DateFormat('kk:mm').format(timesToWake[2])}", style: TextStyle(fontSize: 40, color: Color.fromRGBO(150, 105, 254, 1)));
-      var w4 =Text("${DateFormat('kk:mm').format(timesToWake[3])}", style: TextStyle(fontSize: 40, color: Color.fromRGBO(140, 140, 255, 1)));
-      var w5 =Text("${DateFormat('kk:mm').format(timesToWake[4])}", style: TextStyle(fontSize: 40, color: Color.fromRGBO(187, 187, 255, 1)));
-      var w6 =Text("${DateFormat('kk:mm').format(timesToWake[5])}", style: TextStyle(fontSize: 40, color: Color.fromRGBO(143, 254, 221, 1)));
+      var w1 =individualTimeWidget(timesToWake[0], Color.fromRGBO(168, 39, 254, 1));
+      var w2 =individualTimeWidget(timesToWake[1], Color.fromRGBO(154, 39, 254, 1));
+      var w3 =individualTimeWidget(timesToWake[2], Color.fromRGBO(150, 105, 254, 1));
+      var w4 =individualTimeWidget(timesToWake[3], Color.fromRGBO(140, 140, 255, 1));
+      var w5 =individualTimeWidget(timesToWake[4], Color.fromRGBO(187, 187, 255, 1));
+      var w6 =individualTimeWidget(timesToWake[5], Color.fromRGBO(143, 254, 221, 1));
 
       var orWidget = Text("or", style: TextStyle(fontStyle: FontStyle.italic));
       return Column(
