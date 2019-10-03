@@ -1,10 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:Snoozy/sounds.dart';
 
 void main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);// making it potrait-only
@@ -44,11 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime now = DateTime.now();
   var _switchValue = false;
   var prefs;
-  // **--for the sounds page--**
-  bool isPlaying = false;
-  AudioPlayer playerLoopController;
-  String currentTrackName;
-  // **----**
+  Timer timer;
 
   @override
   void initState() {
@@ -63,9 +59,14 @@ class _MyHomePageState extends State<MyHomePage> {
             false; // ?? means if null, make it false
       });
     });
+
+    // keep updating time
+    timer = Timer.periodic(Duration(milliseconds: 50), (Timer t) => _refreshTime());
+
   }
 
   void _refreshTime() {
+    print("Refreshing... it is now${now.minute}");
     setState(() {
       now = DateTime.now();
     });
@@ -73,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void changeTheme(bool s) {
     setState(() {
-      //switch passes current state of switch, but doesnt cahange it in UI. to do that, you have to change it yourself.
+      //switch passes current state of switch, but doesnt change it in UI. to do that, you have to change it yourself.
       _switchValue = s;
     });
     prefs.setBool('switchValue', s);
@@ -187,50 +188,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  _soundsPage(BuildContext context, var page) async {
-    var dataRecieved = await Navigator.push(
-        context,
-        PageRouteBuilder(
-            pageBuilder: (context, anim1, anim2) => new Sounds(
-                isPlaying: isPlaying,
-                playerLoopController: playerLoopController,
-                currentTrackName: currentTrackName,)));
-    // MaterialPageRoute(
-    //     builder: (context) => ));
-    setState(() {
-      isPlaying = dataRecieved[0];
-      playerLoopController = dataRecieved[1];
-      currentTrackName = dataRecieved[2];
-    });
-    // print(isPlaying);
-  }
-
-  Widget bottomDock() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-          child: ButtonTheme(
-            height: 60,
-            minWidth: 300,
-            child: RaisedButton.icon(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-              onPressed: () => _soundsPage(context, Sounds), //this is a shorthand if you want to pass a function with parameters
-              icon: Icon(Icons.music_note, color: Colors.white,),
-              label: Text("Sounds",style: TextStyle(color: Colors.white)),
-            ),
-          ),
-          // child: FloatingActionButton(
-          //   heroTag: "soundsNavButton",
-          //   tooltip: "Go to sounds page",
-          //   child: Icon(Icons.music_note),
-          //   onPressed: 
-          // ),
-        )
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -240,9 +197,14 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           themeToggler(),
           sleepCard(now),
-          bottomDock(),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 }
