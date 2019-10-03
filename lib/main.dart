@@ -15,20 +15,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return DynamicTheme(
-      defaultBrightness: Brightness.light,
-      data: (brightness) => ThemeData(
-            primarySwatch: Colors.indigo,
-            brightness: brightness,
-          ),
-      themedWidgetBuilder: (context, theme) {
-        return MaterialApp(
-          title: 'Flutter Demo',
-          theme: theme,
-          home: MyHomePage(title: 'snoozy'),
-          debugShowCheckedModeBanner: false,
-        );
-      });
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(brightness: Brightness.dark),
+      home: MyHomePage(title: 'snoozy'),
+      debugShowCheckedModeBanner: false,
+    );
   }
 }
 
@@ -42,24 +34,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   DateTime now = DateTime.now();
-  var _switchValue = false;
   var prefs;
   Timer timer;
 
   @override
   void initState() {
-    //executed only once
-    // You can't use async/await here,
-    // We can't mark this method as async because of the @override
-    SharedPreferences.getInstance().then((_prefs) {
-      setState(() {
-        prefs = _prefs;
-        // make the initial state of the switch same as previously stored state when the app reloads
-        _switchValue = prefs.getBool('switchValue') ??
-            false; // ?? means if null, make it false
-      });
-    });
-
     // keep updating time
     timer = Timer.periodic(Duration(milliseconds: 50), (Timer t) => _refreshTime());
 
@@ -71,41 +50,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void changeTheme(bool s) {
-    setState(() {
-      //switch passes current state of switch, but doesnt change it in UI. to do that, you have to change it yourself.
-      _switchValue = s;
-    });
-    prefs.setBool('switchValue', s);
-    DynamicTheme.of(context).setBrightness(
-        Theme.of(context).brightness == Brightness.dark
-            ? Brightness.light
-            : Brightness.dark);
-  }
-
-  Widget themeToggler() {
-    return 
-    Container(
-      padding: EdgeInsets.all(20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Transform.scale(     
-                scale: 1.5,       
-                child: Switch(
-                  value: _switchValue, 
-                  onChanged: changeTheme,
-                ),
-              ),
-              Text("DarkMode")
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 
   List<DateTime> _sleepTimeLogic(DateTime now) {
     // to calculate sleep timings
@@ -182,7 +126,6 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          themeToggler(),
           dogImage("assets/sleepyDog.png"),
           sleepCard(now),
         ],
