@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 void main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);// making it potrait-only
@@ -33,21 +32,29 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DateTime now = DateTime.now();
+  DateTime timeShown = DateTime.now();
   var prefs;
   Timer timer;
+  var currentHourInPicker;
+  var currentMinInPicker;
+  bool displayCurrentTime = true;
 
   @override
   void initState() {
+    timeShown = DateTime.now();
     // keep updating time
     timer = Timer.periodic(Duration(milliseconds: 50), (Timer t) => _refreshTime());
+    currentHourInPicker = timeShown.hour;
+    currentMinInPicker = timeShown.minute;
 
   }
 
   void _refreshTime() {
-    setState(() {
-      now = DateTime.now();
-    });
+    if(displayCurrentTime){
+      setState(() {
+        timeShown = DateTime.now();
+      });
+    }
   }
 
 
@@ -68,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget sleepCard(DateTime time) {
-    String currentTimeStr = DateFormat('kk:mm').format(now);
+    String currentTimeStr = DateFormat('kk:mm').format(timeShown);
     List<DateTime> timesToWake = _sleepTimeLogic(time);
 
     Widget individualTimeWidget(var time, Color c){
@@ -92,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       );
     }
-
+    String timeStatus = displayCurrentTime? "now($currentTimeStr)" : "at $currentTimeStr";
     return Container(
       padding: EdgeInsets.only(left: 20, right: 20),
       child: Card(
@@ -104,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    "If you sleep now($currentTimeStr), wake up at",
+                    "If you sleep $timeStatus, wake up at",
                   ),
                   _timeStringsWidget(),
                 ],
@@ -117,17 +124,73 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget dogImage(String imgPath){
-    return Transform.scale(scale: 0.60,child: Image.asset(imgPath),);
+
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+         timeShown = DateTime.now();
+         displayCurrentTime= true; 
+        });
+      },
+      child: Transform.scale(scale: 0.50,child: Image.asset(imgPath),),
+      );
+  }
+  
+  Widget timePicker(){
+    Widget hourPicker=  NumberPicker.integer(
+      initialValue: currentHourInPicker,
+      minValue: 0,
+      maxValue: 23,
+      zeroPad: true,
+      infiniteLoop: true,
+      onChanged: (val){
+        var _hour = val<10 ?"0$val" : "$val" ;
+        var _min = timeShown.minute<10 ?"0${timeShown.minute}" : "${timeShown.minute}";
+        var newTimeToShow = DateTime.parse("2012-02-27 $_hour:$_min:00"); // only care about hour and minutes
+        setState(() {
+         currentHourInPicker = val;
+         timeShown = newTimeToShow;
+         displayCurrentTime = false;
+        });
+      });
+    Widget minutePicker=  NumberPicker.integer(
+      initialValue: currentMinInPicker,
+      minValue: 0,
+      maxValue: 59,
+      zeroPad: true,
+      infiniteLoop: true,
+      onChanged: (val){
+        var _hour = timeShown.hour<10 ?"0${timeShown.hour}" : "${timeShown.hour}";
+        var _min = val<10 ?"0$val" : "$val" ;
+        var newTimeToShow = DateTime.parse("2012-02-27 $_hour:$_min:00"); // only care about hour and minutes
+        setState(() {
+          currentMinInPicker = val;  
+          timeShown = newTimeToShow;
+          displayCurrentTime = false;
+        });
+      });
+    
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          hourPicker,
+          minutePicker
+        ],
+      ),
+    );
   }
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           dogImage("assets/sleepyDog.png"),
-          sleepCard(now),
+          sleepCard(timeShown),
+          timePicker()
         ],
       ),
     );
