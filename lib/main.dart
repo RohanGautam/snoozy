@@ -5,6 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
 
+//TODO add animations to the dog on click, or something to show it's clickable
+//TODO make it intuitive what the bottom number selector does.
+// TODO: make selector count BACK! not front 
+
 void main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);// making it potrait-only
   runApp(MyApp());
@@ -170,14 +174,16 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       });
     
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          hourPicker,
-          minutePicker
-        ],
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            hourPicker,
+            minutePicker
+          ],
+        ),
       ),
     );
   }
