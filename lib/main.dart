@@ -7,7 +7,8 @@ import 'package:numberpicker/numberpicker.dart';
 
 //TODO add animations to the dog on click, or something to show it's clickable
 //TODO make it intuitive what the bottom number selector does.
-// TODO: make selector count BACK! not front 
+// TODO: show time to sleep at with bright colors first
+// TODO: add info page
 
 void main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);// making it potrait-only
@@ -63,19 +64,32 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   List<DateTime> _sleepTimeLogic(DateTime now) {
-    // to calculate sleep timings
     List<DateTime> times = [];
-    int timeToFallAsleep = 14, _hours = 0, _mins = 0;
-    // some logic to keep adding 1 and a half hours(duration of 1 full sleep cycle), and 14 minutes(avg time taken to fall asleep)
-    for (int i = 1; i < 7; i++) {
-      _hours = i % 2 == 0 ? _hours + 2 : _hours + 1;
-      _mins = i % 2 == 0 ? 0 : 30;
-      times.add(now
-          .add(new Duration(hours: _hours, minutes: _mins + timeToFallAsleep)));
-      // print("$_hours,  $_mins");
+    int timeToFallAsleep = 14, _hours = 0, _mins = 0; // time to fall asleep in in mins
+    if(displayCurrentTime){
+      // to calculate sleep timings forwards
+      // some logic to keep adding 1 and a half hours(duration of 1 full sleep cycle), and 14 minutes(avg time taken to fall asleep)
+      for (int i = 1; i < 7; i++) {
+        _hours = i % 2 == 0 ? _hours + 2 : _hours + 1;
+        _mins = i % 2 == 0 ? 0 : 30;
+        times.add(now
+            .add(new Duration(hours: _hours, minutes: _mins + timeToFallAsleep)));
+        // print("$_hours,  $_mins");
+        }
+        return times;
+      }
+    else{
+      // to calculate sleep timings forwards
+      // some logic to keep adding 1 and a half hours(duration of 1 full sleep cycle), and 14 minutes(avg time taken to fall asleep)
+      for (int i = 1; i < 7; i++) {
+        _hours = i % 2 == 0 ? _hours + 2 : _hours + 1;
+        _mins = i % 2 == 0 ? 0 : 30;
+        times.add(now
+            .subtract(new Duration(hours: _hours, minutes: _mins + timeToFallAsleep)));
+        // print("$_hours,  $_mins");
+        }
+        return times.reversed.toList(); // to show most recent time first
     }
-
-    return times;
   }
 
   Widget sleepCard(DateTime time) {
@@ -103,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       );
     }
-    String timeStatus = displayCurrentTime? "now($currentTimeStr)" : "at $currentTimeStr";
+    String timeStatus = displayCurrentTime? "If you sleep now($currentTimeStr), wake up at" : "If you wake up at $currentTimeStr, sleep at";
     return Container(
       padding: EdgeInsets.only(left: 20, right: 20),
       child: Card(
@@ -115,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    "If you sleep $timeStatus, wake up at",
+                    timeStatus,
                   ),
                   _timeStringsWidget(),
                 ],
