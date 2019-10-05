@@ -8,6 +8,8 @@ A new Flutter project.
 <img src = "https://user-images.githubusercontent.com/17317792/60763107-fc9e7c80-a09f-11e9-8929-dccc1002758a.png" width = 450>
 <img src = "https://user-images.githubusercontent.com/17317792/60763108-fc9e7c80-a09f-11e9-83ce-0293eb411da2.png" width = 450>
 
+# Dog animation link
+Made on flare by 2Dimensions, available [here.](https://www.2dimensions.com/a/rohangautam/files/flare/dog-animation). Assets used in animation are available in `assets/`
 
 # References
 * [Dynamic theme changer](https://github.com/Norbert515/dynamic_theme), [article](https://proandroiddev.com/how-to-dynamically-change-the-theme-in-flutter-698bd022d0f0)

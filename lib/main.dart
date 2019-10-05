@@ -1,11 +1,12 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:numberpicker/numberpicker.dart';
 
-//TODO add animations to the dog on click, or something to show it's clickable
+import 'package:numberpicker/numberpicker.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:flare_flutter/flare_controls.dart';
+
 //TODO make it intuitive what the bottom number selector does.
 // TODO: show time to sleep at with bright colors first
 // TODO: add info page
@@ -153,7 +154,30 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Transform.scale(scale: 0.50,child: Image.asset(imgPath),),
       );
   }
-  
+
+  final FlareControls _controls = FlareControls();
+  Widget dogAnimation(String animationPath){
+    return  Container(
+      height: 280,
+      width: 300,
+        child: GestureDetector(
+          onTap: (){
+            _controls.play("press");
+            setState(() {
+              timeShown = DateTime.now();
+              displayCurrentTime= true; 
+            });
+          },
+          child: FlareActor(animationPath,
+            // alignment: Alignment.topCenter,
+            shouldClip: false,
+            fit: BoxFit.contain,
+            animation: "idle", // not specified, but giving an unspecified name means no animation will be played initially
+            controller: _controls,
+          ),
+        ),
+      );
+  } 
   Widget timePicker(){
     Widget hourPicker=  NumberPicker.integer(
       initialValue: currentHourInPicker,
@@ -208,7 +232,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          dogImage("assets/sleepyDog.png"),
+          // dogImage("assets/sleepyDog.png"),
+          dogAnimation("assets/dogAnimation.flr"),
           sleepCard(timeShown),
           timePicker()
         ],

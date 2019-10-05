@@ -30,6 +30,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: "^0.7.2"
+  flare_flutter: ^1.5.12
 
 # run `flutter pub pub run flutter_launcher_icons:main` to generate them for android and ios
 flutter_icons:
@@ -49,7 +50,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/
+    - assets/sleepyDog.png
+    - assets/dogAnimation.flr
 
   # To add assets to your application, add an assets section, like this:
   # assets:
