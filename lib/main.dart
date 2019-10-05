@@ -7,7 +7,9 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controls.dart';
 
+//TODO: if move just one wheel, both hour and min should reflect the wheel values
 //TODO make it intuitive what the bottom number selector does.
+//TODO: add app icon
 // TODO: show time to sleep at with bright colors first
 // TODO: add info page
 
