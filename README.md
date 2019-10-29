@@ -1,6 +1,6 @@
-# snoozy_app
+# snoozy
 
-A new Flutter project.
+A web and mobile app that helps you improve sleep quality by suggesting times to wake and sleep at, based on sleep cycles. Inspired by https://sleepyti.me/
 
 
 #  screenshots
