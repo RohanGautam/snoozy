@@ -3,10 +3,8 @@
 A new Flutter project.
 
 
-# Some screenshots
-<img src = "https://user-images.githubusercontent.com/17317792/60763106-fc05e600-a09f-11e9-8591-9a650d3385bf.png" width = 450>
-<img src = "https://user-images.githubusercontent.com/17317792/60763107-fc9e7c80-a09f-11e9-8929-dccc1002758a.png" width = 450>
-<img src = "https://user-images.githubusercontent.com/17317792/60763108-fc9e7c80-a09f-11e9-83ce-0293eb411da2.png" width = 450>
+#  screenshots
+<img src = "https://user-images.githubusercontent.com/17317792/67737475-4859a500-fa46-11e9-8de3-8d113e6a78b6.jpeg" width = 450>
 
 # Dog animation link
 Made on flare by 2Dimensions, available [here.](https://www.2dimensions.com/a/rohangautam/files/flare/dog-animation). Assets used in animation are available in `assets/`
