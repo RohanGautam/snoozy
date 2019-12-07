@@ -13,6 +13,7 @@ import 'package:flare_flutter/flare_controls.dart';
 // TODO: show time to sleep at with bright colors first
 // TODO: add info page
 // TODO: grey out times that have already passed while setting time in the wheels
+// TODO:Highlight selected, and tell how many hours of sleep? Or just some way to see how much
 
 void main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);// making it potrait-only
