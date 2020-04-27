@@ -34,7 +34,7 @@ dev_dependencies:
 
 # run `flutter pub pub run flutter_launcher_icons:main` to generate them for android and ios
 flutter_icons:
-  image_path: "icon/sleepAppIcon2.png" 
+  image_path: "assets/sleepyDog.png" 
   android: true
   ios: true
 
