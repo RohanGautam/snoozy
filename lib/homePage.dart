@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:Snoozy/infoPage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -22,6 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var currentHourInPicker;
   var currentMinInPicker;
   bool displayCurrentTime = true;
+  
 
   @override
   void initState() {
@@ -164,9 +166,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final FlareControls _controls = FlareControls();
   Widget dogAnimation(String animationPath) {
+    double deviceHeight = MediaQuery.of(context).size.height;
     return Container(
-      height: 280,
-      width: 300,
+      height: deviceHeight/3,
       child: GestureDetector(
         onTap: () {
           _controls.play("press");
@@ -240,17 +242,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          // dogImage("assets/sleepyDog.png"),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[InfoButton()]
+            ),
+          ),
           dogAnimation("assets/dogAnimation.flr"),
           sleepCard(timeShown),
-          timePicker()
+          timePicker(),
         ],
       ),
     );
