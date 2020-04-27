@@ -77,7 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
     List<DateTime> timesToWake = _sleepTimeLogic(time);
 
     Widget individualTimeWidget(DateTime time, Color c) {
-      var hoursOfSleep =DateFormat('kk:mm').format(time.subtract(Duration(hours: timeShown.hour, minutes:timeShown.minute)));
+      var hoursOfSleep = DateFormat('kk:mm').format(time.subtract(
+          Duration(hours: timeShown.hour, minutes: timeShown.minute)));
       return Tooltip(
         message: "$hoursOfSleep hours of sleep",
         child: Text("${DateFormat('kk:mm').format(time)}",
@@ -231,7 +232,10 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[hourPicker, minutePicker],
+          children: <Widget>[
+            hourPicker,
+            minutePicker,
+          ],
         ),
       ),
     );
